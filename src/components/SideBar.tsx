@@ -1,11 +1,23 @@
 import { Box, Button, Typography, Drawer } from "@mui/material";
 import { useState } from "react";
-import selectRandomServant from "../utils/utils";
+import { selectRandomServant } from "../utils/utils";
+import FilterButtons from "./FilterButtons";
 
-function SideBar() {
+function SideBar({ filters, setFilters }) {
   const [filterOpen, setFilterOpen] = useState(false);
-
-  const targetServant = selectRandomServant();
+  const [targetServant, setTargetServant] = useState(() =>
+    selectRandomServant()
+  );
+  const genders = ["male", "female", "unknown"];
+  const classes = [
+    "saber",
+    "archer",
+    "lancer",
+    "assassin",
+    "caster",
+    "rider",
+    "berserker",
+  ];
 
   return (
     <Box
@@ -42,7 +54,14 @@ function SideBar() {
       ) : (
         <Typography>No servant selected yet.</Typography>
       )}
-
+      <Button
+        variant="contained"
+        fullWidth
+        sx={{ marginTop: 4 }}
+        onClick={() => setTargetServant(() => selectRandomServant())}
+      >
+        New Servant
+      </Button>
       <Button
         variant="contained"
         fullWidth
@@ -61,7 +80,22 @@ function SideBar() {
         {/* Put your filter controls here */}
         <Box sx={{ width: 250, padding: 2 }}>
           <Typography variant="h6">Filters</Typography>
-          {/* Filter inputs go here */}
+          <FilterButtons
+            label="Gender"
+            options={genders}
+            selected={filters.gender}
+            onChange={(newGender) =>
+              setFilters((f) => ({ ...f, gender: newGender }))
+            }
+          />
+          <FilterButtons
+            label="Class"
+            options={classes}
+            selected={filters.className}
+            onChange={(newClasses) =>
+              setFilters((f) => ({ ...f, className: newClasses }))
+            }
+          />
           <Button onClick={() => setFilterOpen(false)}>Close</Button>
         </Box>
       </Drawer>

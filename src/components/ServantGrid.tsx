@@ -1,22 +1,9 @@
 import { Grid, Card, CardMedia, CardContent, Typography } from "@mui/material";
-import rawData from "../data/servant.json";
 
-interface ServantType {
-  id: number;
-  name: string;
-  className: string;
-  gender: string;
-}
-
-function ServantGrid() {
-  const servantData = rawData as ServantType[];
-  const filteredServantData = servantData.filter(
-    (servant) => !!servant.extraAssets.faces.ascension["1"]
-  );
-
+function ServantGrid({ servants }) {
   return (
-    <Grid container spacing={2}>
-      {filteredServantData.map((servant) => (
+    <Grid container spacing={2} justifyContent="center">
+      {servants.map((servant) => (
         <Grid item key={servant.id} sx={{ width: "200px" }}>
           <Card
             sx={{

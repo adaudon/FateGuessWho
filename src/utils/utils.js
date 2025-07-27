@@ -1,6 +1,6 @@
 import rawData from "../data/servant.json";
 
-export default function selectRandomServant() {
+export function selectRandomServant() {
   const servantData = rawData;
   const filteredServantData = servantData.filter(
     (servant) => !!servant.extraAssets.faces.ascension["1"]
@@ -9,4 +9,8 @@ export default function selectRandomServant() {
   return filteredServantData[
     Math.floor(Math.random() * filteredServantData.length)
   ];
+}
+
+export function getAscensionImage(servant, ascensionLevel = "1") {
+  return servant.extraAssets.faces.ascension[ascensionLevel];
 }
