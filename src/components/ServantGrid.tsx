@@ -17,14 +17,7 @@ function ServantGrid() {
   return (
     <Grid container spacing={2}>
       {filteredServantData.map((servant) => (
-        <Grid
-          item
-          xs={6}
-          sm={4}
-          md={3}
-          key={servant.id}
-          sx={{ width: "200px" }}
-        >
+        <Grid item key={servant.id} sx={{ width: "200px" }}>
           <Card
             sx={{
               cursor: "pointer",
