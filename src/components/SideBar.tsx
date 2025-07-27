@@ -1,4 +1,11 @@
-import { Box, Button, Typography, Drawer } from "@mui/material";
+import {
+  Box,
+  Button,
+  Typography,
+  Drawer,
+  Autocomplete,
+  TextField,
+} from "@mui/material";
 import { useState } from "react";
 import { selectRandomServant } from "../utils/utils";
 import FilterButtons from "./FilterButtons";
@@ -8,6 +15,7 @@ function SideBar({ filters, setFilters }) {
   const [targetServant, setTargetServant] = useState(() =>
     selectRandomServant()
   );
+  const rarity = [5, 4, 3, 2, 1];
   const genders = ["male", "female", "unknown"];
   const classes = [
     "saber",
@@ -18,6 +26,42 @@ function SideBar({ filters, setFilters }) {
     "rider",
     "berserker",
   ];
+  const traits = [
+    "oni",
+    "shutenDouji",
+    "nobunaga",
+    "child",
+    "giant",
+    "lawful",
+    "heavenOrEarth",
+    "roman",
+    "lowRarity",
+    "chaotic",
+    "strong vs Alter Ego",
+    "ignoreClassDisadvantage",
+    "argonaut",
+    "threatToHumanity",
+    "illya",
+    "wildBeast",
+    "mecha",
+    "superGiant",
+    "livingHuman",
+    "greekMythologyMales",
+    "king",
+    "arthur",
+    "saberface",
+    "evil",
+    "dragon",
+    "divine",
+    "brynhildsBeloved",
+    "hyde",
+    "demonic",
+    "beast",
+    "weakToEnumaElish",
+    "riding",
+    "humanoid",
+  ];
+  const attributes = ["beast", "star", "heaven", "human", "earth"];
 
   return (
     <Box
@@ -71,15 +115,21 @@ function SideBar({ filters, setFilters }) {
         Open Filters
       </Button>
 
-      {/* Filter Drawer */}
       <Drawer
         anchor="right"
         open={filterOpen}
         onClose={() => setFilterOpen(false)}
       >
-        {/* Put your filter controls here */}
         <Box sx={{ width: 250, padding: 2 }}>
           <Typography variant="h6">Filters</Typography>
+          <FilterButtons
+            label="Rarity"
+            options={rarity}
+            selected={filters.rarity}
+            onChange={(newRarity) =>
+              setFilters((f) => ({ ...f, rarity: newRarity }))
+            }
+          />
           <FilterButtons
             label="Gender"
             options={genders}
@@ -96,6 +146,25 @@ function SideBar({ filters, setFilters }) {
               setFilters((f) => ({ ...f, className: newClasses }))
             }
           />
+          <FilterButtons
+            label="Attribute"
+            options={attributes}
+            selected={filters.attributes}
+            onChange={(newAttribute) =>
+              setFilters((f) => ({ ...f, attributes: newAttribute }))
+            }
+          />
+          <Autocomplete
+            multiple
+            options={traits}
+            value={filters.traits}
+            onChange={(event, newValue) =>
+              setFilters((prev) => ({ ...prev, traits: newValue }))
+            }
+            renderInput={(params) => <TextField {...params} label="traits" />}
+            sx={{ marginBottom: 2 }}
+          />
+
           <Button onClick={() => setFilterOpen(false)}>Close</Button>
         </Box>
       </Drawer>

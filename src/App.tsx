@@ -6,16 +6,22 @@ import { Box } from "@mui/material";
 import rawData from "./data/servant.json";
 
 interface ServantType {
+  rarity: number;
+  attribute: string;
   id: number;
   name: string;
   className: string;
   gender: string;
+  traits: { id: number; name: string };
 }
 
 function App() {
   const [filters, setFilters] = useState({
+    rarity: [] as number[],
     gender: [] as string[],
     className: [] as string[],
+    traits: [] as object[],
+    attributes: [] as string[],
   });
 
   const servantData = rawData as ServantType[];
@@ -27,8 +33,25 @@ function App() {
     const classMatch =
       filters.className.length === 0 ||
       filters.className.includes(servant.className);
+    const attributeMatch =
+      filters.attributes.length === 0 ||
+      filters.attributes.includes(servant.attribute);
+    const rarityMatch =
+      filters.rarity.length === 0 || filters.rarity.includes(servant.rarity);
+    const traitsMatch =
+      filters.traits.length === 0 ||
+      servant.traits.some((trait: "string") =>
+        filters.traits.includes(trait.name)
+      );
 
-    return isServant && genderMatch && classMatch;
+    return (
+      isServant &&
+      rarityMatch &&
+      genderMatch &&
+      classMatch &&
+      attributeMatch &&
+      traitsMatch
+    );
   });
 
   return (
